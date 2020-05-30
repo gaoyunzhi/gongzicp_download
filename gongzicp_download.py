@@ -3,6 +3,7 @@
 import cached_url
 from bs4 import BeautifulSoup
 import yaml
+import time
 
 chapter_prefix = 'https://www.gongzicp.com/novel/getChapterList?nid='
 detail_prefix = 'https://www.gongzicp.com/read-%s.html'
@@ -23,6 +24,7 @@ def download(url):
 	for cid in getIds(content):
 		content = cached_url.get(detail_prefix % cid)
 		soup = BeautifulSoup(content, 'html.parser')
+		time.sleep(1)
 	
 
 	
