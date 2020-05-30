@@ -37,6 +37,7 @@ def download(url):
 		content = content.replace('\/', '/')
 		soup = BeautifulSoup(content, 'html.parser')
 		for item in soup.find_all('p', class_='cp-hidden'):
+			print(item)
 			item.decompose()
 		with open('download/%s.txt' % novel_name, 'a') as f:
 			f.write(soup.text.encode().decode('unicode-escape'))
