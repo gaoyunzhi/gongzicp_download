@@ -9,12 +9,19 @@ chapter_prefix = 'https://www.gongzicp.com/novel/getChapterList?nid='
 def getNid(url):
 	return url.split('-')[-1].split('.')[0]
 
+def getIds(content):
+	for item in content['data']['list']:
+		cid = item.get('id')
+		if cid:
+			yield cid
+
 def download(url):
 	nid = getNid(url)
 	content = cached_url.get(chapter_prefix + nid)
-	print(content)
 	content = yaml.load(content, Loader=yaml.FullLoader)
-	print(content)
+	for cid in getIds(content):
+		print(cid)
+	
 
 	
 if __name__ == "__main__":
