@@ -34,7 +34,8 @@ def getContent(raw_content, debug_info = None):
 	for item in soup.find_all('p'):
 		if 'hidden' in str(item.attrs):
 			item.decompose()
-	return soup.text.encode().decode('unicode-escape')
+	content = soup.text.encode().decode('unicode-escape')
+	return content.replace('\r', '\n')
 
 def getNovelName(raw_content):
 	novel_name = raw_content.split(novel_anchor)[1].split('",')[0]
@@ -49,12 +50,13 @@ def download(url, force_cache = False):
 	for cid in getIds(content):
 		raw_content = cached_url.get(
 			detail_prefix % cid, 
-			force_cache = force_cache,
+			force_cache = True,
 			sleep = 1)
 		if not novel_name:
 			novel_name = getNovelName(raw_content)
 			os.system('mkdir download > /dev/null 2>&1')
 		result.append(getContent(raw_content, debug_info = detail_prefix % cid))
+		break
 	with open('download/%s.txt' % novel_name, 'w') as f:
 		f.write(compactText(''.join(result)))
 	# TODO
