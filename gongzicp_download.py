@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import yaml
 
 chapter_prefix = 'https://www.gongzicp.com/novel/getChapterList?nid='
+detail_prefix = 'https://www.gongzicp.com/read-%s.html'
 
 def getNid(url):
 	return url.split('-')[-1].split('.')[0]
@@ -19,9 +20,9 @@ def download(url):
 	nid = getNid(url)
 	content = cached_url.get(chapter_prefix + nid)
 	content = yaml.load(content, Loader=yaml.FullLoader)
-	print(content)
 	for cid in getIds(content):
-		...
+		content = cached_url.get(detail_prefix % cid)
+		soup = BeautifulSoup(content, 'html.parser')
 	
 
 	
