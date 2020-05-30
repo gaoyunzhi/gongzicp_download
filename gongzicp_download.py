@@ -12,6 +12,9 @@ detail_prefix = 'https://www.gongzicp.com/read-%s.html'
 content_anchor = 'content: "'
 novel_anchor = 'novelName: "'
 
+with open('credential') as f:
+	credential = yaml.load(f, Loader=yaml.FullLoader)
+
 def getNid(url):
 	return url.split('-')[-1].split('.')[0]
 
@@ -21,8 +24,12 @@ def getIds(content):
 		if cid:
 			yield cid
 
-def getContent(raw_content):
-	content = raw_content.split(content_anchor)[1].split('",')[0]
+def getContent(raw_content, debug_info = None):
+	try:
+		content = raw_content.split(content_anchor)[1].split('",')[0]
+	except Exception as e:
+		print(debug_info)
+		return ''
 	soup = BeautifulSoup(content.replace('\/', '/'), 'html.parser')
 	for item in soup.find_all('p'):
 		if 'hidden' in str(item.attrs):
@@ -47,9 +54,11 @@ def download(url, force_cache = False):
 		if not novel_name:
 			novel_name = getNovelName(raw_content)
 			os.system('mkdir download > /dev/null 2>&1')
-		result.append(getContent(raw_content))
+		result.append(getContent(raw_content, debug_info = detail_prefix % cid))
 	with open('download/%s.txt' % novel_name, 'w') as f:
 		f.write(compactText(''.join(result)))
+	# TODO
+	# if there is need, automatically send to kindle
 	
 if __name__ == "__main__":
 	download('https://www.gongzicp.com/novel-168140.html', force_cache = True)
