@@ -19,8 +19,9 @@ def download(url):
 	nid = getNid(url)
 	content = cached_url.get(chapter_prefix + nid)
 	content = yaml.load(content, Loader=yaml.FullLoader)
+	print(content)
 	for cid in getIds(content):
-		print(cid)
+		...
 	
 
 	
