@@ -56,7 +56,6 @@ def download(url, force_cache = False):
 			novel_name = getNovelName(raw_content)
 			os.system('mkdir download > /dev/null 2>&1')
 		result.append(getContent(raw_content, debug_info = detail_prefix % cid))
-		break
 	with open('download/%s.txt' % novel_name, 'w') as f:
 		f.write(compactText(''.join(result)))
 	# TODO
