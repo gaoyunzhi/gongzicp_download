@@ -62,4 +62,4 @@ def download(url, force_cache = False):
 	# if there is need, automatically send to kindle
 	
 if __name__ == "__main__":
-	download('https://www.gongzicp.com/novel-168140.html', force_cache = True)
+	download('https://www.gongzicp.com/novel-173029.html', force_cache = True)
